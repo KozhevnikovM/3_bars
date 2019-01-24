@@ -9,24 +9,20 @@ def load_data(filepath):
 def get_biggest_bar(data):
     biggest = data[0]
     max_seats_count = biggest['properties']['Attributes']['SeatsCount']
-
     for bar in data:
         if bar['properties']['Attributes']['SeatsCount'] > max_seats_count:
             max_seats_count = bar['properties']['Attributes']['SeatsCount']
             biggest = bar
-
     return biggest
 
 
 def get_smallest_bar(data):
     smallest = data[0]
     smallest_seats_counter = smallest['properties']['Attributes']['SeatsCount']
-
     for bar in data:
         if bar['properties']['Attributes']['SeatsCount'] < smallest_seats_counter:
             smallest_seats_counter = bar['properties']['Attributes']['SeatsCount']
             smallest = bar
-
     return smallest
 
 
@@ -45,7 +41,6 @@ def get_closest_bar(data, longitude, latitude):
         if current_distance < smallest_distance:
             smallest_distance = current_distance
             closest = bar
-
     return closest
 
 
@@ -56,33 +51,34 @@ def calc_coordinate_distance(x1,y1,x2,y2):
 
 
 if __name__ == '__main__':
-    data = load_data(
+    bars_list = load_data(
         'https://devman.org/media/filer_public/95/74/957441dc-78df-4c99-83b2-e93dfd13c2fa/bars.json'
     )
     while True:
         try:
-            current_longitude = float(input('Введите текущую долготу: \n'))
-            current_latitude = float(input('Введите текущую широту: \n'))
+            user_longitude = float(input('Введите текущую долготу: \n'))
+            user_latitude = float(input('Введите текущую широту: \n'))
+            print()
             break
         except ValueError:
             print("Неверный формат координат, повторите ввод")
 
+    biggest_bar = get_biggest_bar(bars_list)
+    print("Самый большой бар - {}\nАдрес:{}\n".format(
+        biggest_bar['properties']['Attributes']['Name'],
+        biggest_bar['properties']['Attributes']['Address']
+    ))
 
-    biggest_bar = get_biggest_bar(data)
-    print(
-        f"Самый большой бар - {biggest_bar['properties']['Attributes']['Name']}\n" \
-        f"Адрес: {biggest_bar['properties']['Attributes']['Address']}\n"
-    )
+    smallest_bar = get_smallest_bar(bars_list)
+    print("Самый маленький бар - {}\nАдрес: {}\n".format(
+        smallest_bar['properties']['Attributes']['Name'],
+        smallest_bar['properties']['Attributes']['Address']
+    ))
 
-    smallest_bar = get_smallest_bar(data)
-    print(
-        f"Самый маленький бар - {smallest_bar['properties']['Attributes']['Name']}\n" \
-        f"Адрес: {smallest_bar['properties']['Attributes']['Address']}\n"
-    )
-
-
-    closest_bar = get_closest_bar(data, current_longitude, current_latitude)
-    print(f"Ближайший бар - {closest_bar['properties']['Attributes']['Name']}\n" \
-        f"Адрес: {closest_bar['properties']['Attributes']['Address']}")
+    closest_bar = get_closest_bar(bars_list, user_longitude, user_latitude)
+    print("Ближайший бар - {}\nАдрес: {}\n".format(
+        closest_bar['properties']['Attributes']['Name'],
+        closest_bar['properties']['Attributes']['Address']
+    ))
 
 
