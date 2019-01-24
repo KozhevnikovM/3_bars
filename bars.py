@@ -59,6 +59,14 @@ if __name__ == '__main__':
     data = load_data(
         'https://devman.org/media/filer_public/95/74/957441dc-78df-4c99-83b2-e93dfd13c2fa/bars.json'
     )
+    while True:
+        try:
+            current_longitude = float(input('Введите текущую долготу: \n'))
+            current_latitude = float(input('Введите текущую широту: \n'))
+            break
+        except ValueError:
+            print("Неверный формат координат, повторите ввод")
+
 
     biggest_bar = get_biggest_bar(data)
     print(
@@ -72,8 +80,6 @@ if __name__ == '__main__':
         f"Адрес: {smallest_bar['properties']['Attributes']['Address']}\n"
     )
 
-    current_longitude = float(input('Введите текущую долготу: \n'))
-    current_latitude = float(input('Введите текущую широту: \n'))
 
     closest_bar = get_closest_bar(data, current_longitude, current_latitude)
     print(f"Ближайший бар - {closest_bar['properties']['Attributes']['Name']}\n" \
