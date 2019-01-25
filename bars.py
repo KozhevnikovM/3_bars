@@ -54,16 +54,17 @@ if __name__ == '__main__':
     ))
 
     choice = input('Хотите узнать где находиться ближайший бар? (да\\нет):\n').lower()
-    if choice in ['д', 'да', 'y', 'yes']:
-        while True:
-            coordinates = [input('Введите координату долготы:\n'),
-                           input('Введите координату широты:\n')]
-            try:
-                coordinates = list(map(float, coordinates))
-                print('Ближайший к вам бар - {}\nРасположен по адресу:{}\n'.format(
-                    get_closest_bar(bars, coordinates[0], coordinates[1])['properties']['Attributes']['Name'],
-                    get_closest_bar(bars, coordinates[0], coordinates[1])['properties']['Attributes']['Address']
-                ))
-                break
-            except ValueError:
-                print("Неверный формат координат, повторите ввод")
+    if choice not in ['д', 'да', 'y', 'yes']:
+        exit()
+    while True:
+        coordinates = [input('Введите координату долготы:\n'),
+                       input('Введите координату широты:\n')]
+        try:
+            coordinates = list(map(float, coordinates))
+            print('Ближайший к вам бар - {}\nРасположен по адресу:{}\n'.format(
+                get_closest_bar(bars, coordinates[0], coordinates[1])['properties']['Attributes']['Name'],
+                get_closest_bar(bars, coordinates[0], coordinates[1])['properties']['Attributes']['Address']
+            ))
+            break
+        except ValueError:
+            print("Неверный формат координат, повторите ввод")
