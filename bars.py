@@ -46,14 +46,12 @@ def get_bars_short_info(bar):
     )
 
 
-
 if __name__ == '__main__':
-
     try:
         file_path = sys.argv[1]
     except IndexError:
-        file_path='bars.json'
-
+        file_path = 'bars.json'
+    
     bars = load_data(file_path)
     print('Самый большой бар: ' + get_bars_short_info(get_biggest_bar(bars)))
 
