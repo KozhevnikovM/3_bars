@@ -1,12 +1,15 @@
-import json, sys
+import json, sys, os
 
 
 def load_data(file_path):
+    if not os.path.exists(file_path):
+        return 'File not found'
     with open(file_path, 'r', encoding='UTF-8') as f:
-        try:
-            return json.loads(f.read())['features']
-        except (json.JSONDecodeError, FileNotFoundError):
-            return 'Invalid Json or file not found'
+        file_content = f.read()
+    try:
+        return json.loads(file_content)['features']
+    except json.JSONDecodeError:
+        return 'Invalid Json'
 
 
 def get_seats_count(bar):
@@ -47,11 +50,11 @@ def get_bars_short_info(bar):
 
 
 if __name__ == '__main__':
-    try:
+    if len(sys.argv) == 2:
         file_path = sys.argv[1]
-    except IndexError:
+    else:
         file_path = 'bars.json'
-    
+
     bars = load_data(file_path)
     print('Самый большой бар: ' + get_bars_short_info(get_biggest_bar(bars)))
 
@@ -65,6 +68,8 @@ if __name__ == '__main__':
                    input('Введите координату широты:\n')]
     try:
         coordinates = list(map(float, coordinates))
-        print('Ближайший к вам бар: ' + get_bars_short_info(get_closest_bar(bars, coordinates[0], coordinates[1])))
+        print('Ближайший к вам бар: ' +
+              get_bars_short_info(get_closest_bar(bars, coordinates[0], coordinates[1]))
+              )
     except ValueError:
         exit('Неверный формат координат.')
