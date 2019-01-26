@@ -55,9 +55,9 @@ if __name__ == '__main__':
     else:
         file_path = 'bars.json'
 
-    bars = load_data(file_path)
-
-    if not bars:
+    if load_data(file_path):
+        bars = load_data(file_path)
+    else:
         exit('Файл не найден или имеет недопустимый формат')
 
     print('Самый большой бар: ' + get_bars_short_info(get_biggest_bar(bars)))
