@@ -3,7 +3,7 @@ import json, sys, os
 
 def load_data(file_path):
     if not os.path.exists(file_path):
-        return 'File not found'
+        return None
     with open(file_path, 'r', encoding='UTF-8') as file:
         file_content = file.read()
     try:
@@ -56,6 +56,9 @@ if __name__ == '__main__':
         file_path = 'bars.json'
 
     bars = load_data(file_path)
+    if bars == None:
+        exit('Файл не найден или имеет недопустимый формат')
+
     print('Самый большой бар: ' + get_bars_short_info(get_biggest_bar(bars)))
 
     print('Самый маленький бар: '  + get_bars_short_info(get_smallest_bar(bars)))
