@@ -4,12 +4,12 @@ import json, sys, os
 def load_data(file_path):
     if not os.path.exists(file_path):
         return 'File not found'
-    with open(file_path, 'r', encoding='UTF-8') as f:
-        file_content = f.read()
+    with open(file_path, 'r', encoding='UTF-8') as file:
+        file_content = file.read()
     try:
         return json.loads(file_content)['features']
     except json.JSONDecodeError:
-        return 'Invalid Json'
+        return None
 
 
 def get_seats_count(bar):
